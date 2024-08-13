@@ -1,16 +1,18 @@
-import React from 'react';
-import TodoItem from './TodoItem';
+import React from "react";
 
-const TodoList = () => {
-  const todos = ['Learn React', 'Build a project', 'Deploy on Netlify'];
-
+export default function TodoList({ todos, onToggleTodo }) {
   return (
-    <div>
+    <ul>
       {todos.map((todo, index) => (
-        <TodoItem key={index} todo={todo} />
+        <li key={index}>
+          <input
+            type="checkbox"
+            checked={todo.isCompleted}
+            onChange={() => onToggleTodo(index)}
+          />{" "}
+          {todo.text}
+        </li>
       ))}
-    </div>
+    </ul>
   );
-};
-
-export default TodoList;
+}
