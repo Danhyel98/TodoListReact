@@ -1,12 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Form from './form';
 import TodoList from './TodoList';
 
+const LSKEY = "MyTodoApp";
+
 function App() {
-  const [todos, setTodos] = useState([
-    { text: "My first todo", isCompleted: false },
-    { text: "My second todo", isCompleted: false },
-  ]);
+  // Initialize the state with an empty array
+  const [todos, setTodos] = useState([]);
+
+  // Retrieve todos from localStorage when the component first renders
+  useEffect(() => {
+    const savedTodos = JSON.parse(window.localStorage.getItem(LSKEY + ".todos"));
+    if (savedTodos) {
+      setTodos(savedTodos);
+    }
+  }, []); // Empty dependency array ensures this runs only on the first render
+
+  // Save todos to localStorage when todos state changes
+  useEffect(() => {
+    window.localStorage.setItem(LSKEY + ".todos", JSON.stringify(todos));
+  }, [todos]);
 
   const addTodo = (todoText) => {
     const newTodos = [...todos, { text: todoText, isCompleted: false }];
